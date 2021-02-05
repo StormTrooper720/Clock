@@ -1,27 +1,8 @@
-# Version 1.0
+# Version 1.1
 # Created by StormTrooper720 on GitHub
 from time import strftime
 from tkinter import Label, Tk
-
-
-def dark():
-    window = Tk()
-    window.title("Clock")
-    window.geometry("380x100")
-    window.configure(bg="#383838")
-
-    clock_label = Label(window, bg="#383838", fg="white", font=("Times", 30), relief='flat')
-    clock_label.place(x=20, y=20)
-
-
-def light():
-    window = Tk()
-    window.title("Clock")
-    window.geometry("380x100")
-    window.configure(bg="white")
-
-    clock_label = Label(window, bg="white", fg="black", font=("Times", 30), relief='flat')
-    clock_label.place(x=20, y=20)
+clock_label = None
 
 
 def update_label():
@@ -31,17 +12,28 @@ def update_label():
 
 
 def some():
+    global clock_label
     dark_mode = None
     try:
-        dark_mode = str(input("Would you like dark mode? Enter true are false:"))
+        dark_mode = str(input("Would you like dark mode? Enter yes or no"))
     except ValueError:
         some()
-        dark_mode = f"{dark_mode.title()}"
+    dark_mode = f"{dark_mode.title()}"
     if dark_mode == "Yes":
-        dark()
-    elif dark_mode == "Yes":
-        light()
+        window.configure(bg="#383838")
+        clock_label = Label(window, bg="#383838", fg="white", font=("Times", 30), relief='flat')
+        clock_label.place(x=20, y=20)
+    elif dark_mode == "No":
+        window.configure(bg="white")
+        clock_label = Label(window, bg="white", fg="black", font=("Times", 30), relief='flat')
+        clock_label.place(x=20, y=20)
+    else:
+        some()
+    update_label()
+    window.mainloop()
 
 
-update_label()
-window.mainloop()
+window = Tk()
+window.title("Clock")
+window.geometry("380x100")
+some()
